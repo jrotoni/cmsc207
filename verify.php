@@ -9,7 +9,7 @@
 	<body>
 		
 		<div class="container">
-			<h1 align="center">Your Email is not yet verified!</h1>
+			<h1 align="center">Your email has not yet verified!</h1>
 			<form role="form" method="post" action="send_email.php">
 			<div class="form-group">
 				<input class="form-control" type="email" name="resendLink" placeholder="Input your email here to resend the link!" required />

@@ -19,7 +19,7 @@ $email_val = mysqli_query($conn, $validation);
 
 /*Kung successfull ang execution ng query, may nakaregister na ng email*/
 if (mysqli_num_rows($email_val) > 0) {
-$msg = "The email address has already taken!";
+$msg = "The email address has already been taken!";
 
 /*Babalik ulit sa register.php na may error message*/
 header("Location: register.php?msg=$msg");
@@ -27,7 +27,7 @@ header("Location: register.php?msg=$msg");
 /*Kung wala pang nakaregister, iregister natin sa database*/  
 
 /*Encrypt natin ang password sa md5*/
-$pword = md5($pword);
+$pword = md5($pword); 
 /*Generate tayo ng random code, sana walang collission!*/
 $activation_code = md5(rand());
 /*Gamitin natin ito for forgot password*/
@@ -46,6 +46,8 @@ $result = mysqli_query($conn, $sql);
 /*Sulatan natin yung registered user para iactivate code */
 
 /*Required files para sa PHPMailer*/
+// https://github.com/PHPMailer/PHPMailer
+ 
 if(!class_exists('PHPMailer')) {
     require('phpmailer/class.phpmailer.php');
 	require('phpmailer/class.smtp.php');
@@ -58,7 +60,7 @@ require_once("mail_configuration.php");
 $mail = new PHPMailer();
 
 /*Love letter ganern*/
-$emailBody = "<div>" . $fname . ",<br><br><p>Click this link to activate your email<br><a href='" . PROJECT_HOME . "activation/activate_email.php?activation_code=" . $activation_code . "'>" . PROJECT_HOME . "activation/activate_email.php?activation_code=" . $activation_code . "</a><br><br></p>Regards,<br> Team C.</div>";
+$emailBody = '<div><p>Hi '.$fname . ',</p><p>Here is your activation code: ' .$activation_code.'</p><br><p>Best regards,</p><p>Team C of CMSC 207</p></div>';
 
 $mail->IsSMTP();
 $mail->SMTPDebug = 0;
@@ -80,14 +82,14 @@ $mail->IsHTML(true);
 
 /*Conditional statement kung success ang pag-email*/
 if(!$mail->Send()) {
-	$msg = 'Problem in Sending Activation Email';
+	$message = 'Problem in Sending Activation Email';
 } else {
-	$msg = 'Please check your email to verify your account.';
+	$message = 'Please check your email to verify your account.';
 }
 
 /*Sarado natin ang database*/
 mysqli_close($conn);
 
 /*Redirect natin ang user sa register.php*/
-header("Location: register.php?msg=$msg");
+header("Location: activation/activate_email.php?message=$message");
 }

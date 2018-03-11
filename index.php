@@ -1,13 +1,9 @@
 <?php
-
-
 if (isset($_GET['msg'])) {
-	$msg = $_GET['msg'];
-	//echo $msg;
-	//exit;
+	$message = $_GET['msg'];
+
 } else {
-	$msg = '';
-	//echo $msg;
+	$message = '';
 }
 ?>
 
@@ -42,7 +38,15 @@ if (isset($_GET['msg'])) {
 <body>
     <div class="container container-table">
         <div class="row vertical-center-row">
+            <div class="page-header" style="font-family: Cambria; font-style: bold">
+                <h1 align="center">CMSC207 | Team C</h1>
+            </div>
             <div class="col-md-4 col-md-offset-4">
+                <div id="validation-message">
+                    <?php
+                        echo '<p>'.$message.'</p>';
+                     ?>
+                </div>
                 <div class="login-panel panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Sign In</h3>
@@ -56,11 +60,6 @@ if (isset($_GET['msg'])) {
                                 <div class="form-group">
 									<input class="form-control" type="password" name="txtPassword" placeholder="Password" required />
                                 </div>
-<!--                                 <div class="checkbox">
-                                    <label>
-                                        <input name="remember" type="checkbox" value="Remember Me">Remember Me
-                                    </label>
-                                </div> -->
                                <div id="testCenter" class="form-group"> 
     							  <button type="submit" class="btn btn-success btn-lg btn-block">Login</button>
                                 </div>

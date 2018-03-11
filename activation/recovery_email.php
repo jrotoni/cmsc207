@@ -4,11 +4,11 @@ require "../connect.php";
 
 $message = '*';
 $message2 = '';
-$code = $_GET['activation_code'];
+$code = $_GET['recovery_code'];
 $usermail = $_GET['user'];
 
 if(empty($_POST["update-password"]) && $message = '*') {
-	if(isset($_GET['activation_code'])) {
+	if(isset($_GET['recovery_code'])) {
 		$query = "
 			SELECT * FROM user_register 
 			WHERE token = '$code'

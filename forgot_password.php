@@ -32,7 +32,7 @@ $message = "";
 	$mail = new PHPMailer();
 
 	/*Love letter ganern*/
-	$emailBody = "<div>" . $first_name . ",<br><br><p>Click this link to recover your account<br><a href='" . PROJECT_HOME . "activation/recovery_email.php?user=".$username."&activation_code=" . $token . "'>" . PROJECT_HOME . "activation/recovery_email.php?user=".$username."&activation_code=" . $token . "</a><br><br></p>Regards,<br> Team C.</div>";
+	$emailBody = '<div><p>Hi '.$first_name . ',</p><p>Here is your activation code: ' .$token.'</p><br><p>Best regards,</p><p>Team C of CMSC 207</p></div>';
 
 	$mail->IsSMTP();
 	$mail->SMTPDebug = 0;
@@ -61,6 +61,7 @@ $message = "";
 
 	/*Sarado natin ang database*/
 	mysqli_close($conn);
+	header("Location: activation/forgot_password_verification.php?message=$message");
 	
 	} else {
 		$message = 'Thre is no such email in our database! Please <a href="register.php">register here</a>';
@@ -124,12 +125,12 @@ $message = "";
 					  	<div><input type="email" name="user-email" id="user-email" class="form-control"></div>
 					  </div>
 					  <input type="submit"  name="forgot-password" id="forgot-password" class="btn btn-lg btn-success btn-block" value="Submit">
-					<div class="panel-heading">
-						<p>Remembered your password? <a href="index.php">Sign In</a></p>
-					</div>
 			  </fieldset>
 			</form>	
 			  </div>
+					<div class="panel-heading">
+						<p>Remembered your password? <a href="../index.php">Sign In</a></p>
+					</div>
 			</div>
 			</div>
 		</div>

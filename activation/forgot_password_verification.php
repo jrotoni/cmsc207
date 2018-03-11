@@ -13,7 +13,7 @@ if(isset($_POST['code-verify']) && !empty($_POST['code-verify'])) {
 	$code = $_POST['code-verify'];
 	$query = "
 		SELECT * FROM user_register 
-		WHERE activation_code = '$code'
+		WHERE token = '$code'
 	";
 	$result = mysqli_query($conn, $query);
 
@@ -21,35 +21,24 @@ if(isset($_POST['code-verify']) && !empty($_POST['code-verify'])) {
 		$message = "verified";
 
 		$user = mysqli_fetch_assoc($result);
-		if($code==$user['activation_code']) {
-			if($user['email_status'] == 'not verified') {
-				$update_query = "
-				UPDATE user_register 
-				SET email_status = 'verified' 
-				WHERE id = '".$user['id']."'
-				";
-				$result = mysqli_query($conn, $update_query);
-				$message = '<label class="text-success">Your Email Address Successfully Verified <br />You can login here - <a href="../index.php">Login</a></label>';
-			} else {
-				$message = '<label class="text-info">Your Email Address has Already Verified!</label>';
+		if($code==$user['token']) {
+			header('location: recovery_email.php?user='.$user['username'].'&recovery_code='.$user['token']);
+		} else {
+				$message = '<label class="text-danger">Invalid Link</label>';
 			}
-		} else
-			{
-				$message = '<label class="text-danger">Invalid activation code</label>';
-			}
-
 	}
 
-	 else {
+	else {
 		$message = "Error";
 	}
 }
 mysqli_close($conn);
 ?>
+
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Email Verification</title>		
+		<title>Forgot Password Email Verification</title>		
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -78,7 +67,7 @@ mysqli_close($conn);
 			    	</div>
 			<div class="panel panel-default">
 			  <div class="panel-heading">
-			    <h3 class="panel-title">Email Verification</h3>
+			    <h3 class="panel-title">Forgot Password Email Verification</h3>
 			  </div>
 			  <div class="panel-body">
 			<form name="frmForgot" id="frmForgot" method="POST">
@@ -91,6 +80,9 @@ mysqli_close($conn);
 			  </fieldset>
 			</form>	
 			  </div>
+					<div class="panel-heading">
+						<p class="panel-title">Remembered your password? <a href="../index.php">Sign In</a></p>
+					</div>
 			</div>
 			</div>
 		</div>

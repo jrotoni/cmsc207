@@ -23,7 +23,7 @@ require_once("mail_configuration.php");
 
 $mail = new PHPMailer();
 
-$emailBody = "<div>" . $user['first_name'] . ",<br><br><p>Click this link to activate your email<br><a href='" . PROJECT_HOME . "activation/activate_email.php?activation_code=" . $user['activation_code'] . "'>" . PROJECT_HOME . "activation/activate_email.php?activation_code=" . $user['activation_code'] . "</a><br><br></p>Regards,<br> Team C.</div>";
+$emailBody = "<div>" . $user['first_name'] . ",<br><p>Here is your activation code: ".$user['activation_code']."<br><br></p>Regards,<br> Team C of CMSC 207</div>";
 
 $mail->IsSMTP();
 $mail->SMTPDebug = 0;
@@ -49,7 +49,7 @@ if(!$mail->Send()) {
 	$msg = 'Please check your email to verify your account.';
 }
 
-header("Location: register.php?msg=$msg");
+header("Location: index.php?msg=$msg");
 }
 
 mysqli_close($conn);
